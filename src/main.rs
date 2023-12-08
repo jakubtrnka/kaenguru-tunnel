@@ -72,13 +72,13 @@ impl FromStr for ReceiverBackend {
 }
 
 impl ReceiverBackend {
-    fn into_sink(&self) -> Result<Box<dyn Write>, String> {
+    fn to_sink(&self) -> Result<Box<dyn Write>, String> {
         match self {
             Self::File(path) => {
                 let file = std::fs::OpenOptions::new()
                     .create_new(true)
                     .write(true)
-                    .open(&path)
+                    .open(path)
                     .map_err(|e| e.to_string())?;
                 Ok(Box::new(file))
             }
@@ -162,7 +162,7 @@ impl SendCommand {
 
 impl ReceiveCommand {
     fn execute(self) {
-        let listener = match TcpListener::bind(&self.endpoint) {
+        let listener = match TcpListener::bind(self.endpoint) {
             Ok(i) => i,
             Err(e) => {
                 eprintln!("Failed to connect: {e}");
@@ -191,7 +191,7 @@ impl ReceiveCommand {
             self.remote_key
         );
 
-        let file_to_write = match self.destination.into_sink() {
+        let file_to_write = match self.destination.to_sink() {
             Ok(s) => s,
             Err(e) => {
                 eprintln!("Couldnt open a sink: {e}");

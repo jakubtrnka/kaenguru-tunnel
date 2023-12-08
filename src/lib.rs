@@ -132,7 +132,7 @@ mod tests {
                 data_generated: 0,
                 limit: src_limit,
                 max_chunk_size: 10000000,
-                cumulative_hash: snow::resolvers::DefaultResolver::default()
+                cumulative_hash: snow::resolvers::DefaultResolver
                     .resolve_hash(&HashChoice::Blake2b)
                     .unwrap(),
             };
@@ -146,7 +146,7 @@ mod tests {
 
         let mut snk = TrackedDataSink {
             data_received: 0,
-            cumulative_hash: snow::resolvers::DefaultResolver::default()
+            cumulative_hash: snow::resolvers::DefaultResolver
                 .resolve_hash(&HashChoice::Blake2b)
                 .unwrap(),
         };
@@ -160,7 +160,7 @@ mod tests {
         assert_eq!(snk.data_received, src_limit);
         println!(
             "{}",
-            src_limit as f64 / 1000_000.0 / timer.elapsed().as_secs_f64()
+            src_limit as f64 / 1_000_000.0 / timer.elapsed().as_secs_f64()
         );
         std::fs::remove_file("/tmp/sock1234").ok();
     }

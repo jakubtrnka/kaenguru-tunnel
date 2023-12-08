@@ -11,7 +11,7 @@ pub struct TransmissionStats {
 
 impl TransmissionStats {
     pub fn hash(&self) -> String {
-        hex::encode(&self.hash)
+        hex::encode(self.hash)
     }
 }
 
@@ -39,7 +39,7 @@ impl<W: Read + Write> Encryption<W> {
             vec![0_u8; NAIVE_HEADER_LEN + max_chunk_length as usize + MAC_LENGTH];
 
         // Calcualte hash of the data being sent;
-        let mut hasher = snow::resolvers::RingResolver::default()
+        let mut hasher = snow::resolvers::RingResolver
             .resolve_hash(&HashChoice::SHA256)
             .unwrap();
         let mut total_bytes_encrypted = 0;
@@ -97,7 +97,7 @@ impl<W: Read + Write> Encryption<W> {
         let mut encrypted_length_prefix = [0_u8; 2 + MAC_LENGTH];
 
         // Calcualte hash of the data being sent;
-        let mut hasher = snow::resolvers::RingResolver::default()
+        let mut hasher = snow::resolvers::RingResolver
             .resolve_hash(&HashChoice::SHA256)
             .unwrap();
         let mut total_bytes_decrypted = 0;
@@ -140,7 +140,7 @@ impl<W: Read + Write> Encryption<W> {
             }
 
             output
-                .write_all(&mut buf[..pt_pld_len])
+                .write_all(&buf[..pt_pld_len])
                 .map_err(TransportError::IoError)?;
         }
     }

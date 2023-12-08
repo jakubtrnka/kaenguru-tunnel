@@ -54,7 +54,7 @@ impl TryFrom<&Keypair> for PrivateKey {
 impl From<PrivateKey> for Keypair {
     fn from(value: PrivateKey) -> Self {
         let params = crate::handshake_params();
-        let x = snow::resolvers::DefaultResolver::default();
+        let x = snow::resolvers::DefaultResolver;
         let mut dh = x
             .resolve_dh(&params.dh)
             .expect("Missing DH operation for this particular handahske");

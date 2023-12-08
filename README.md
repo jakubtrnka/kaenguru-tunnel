@@ -1,6 +1,11 @@
 # Känguru tunnel
 
-Securely transfer files over an insecure network:
+Securely transfer files over an insecure network.
+
+Program works by establishing encrypted session with the `Noise_XX_25519_AESGCM_BLAKE2b` noise protocol:
+(see https://noiseprotocol.org/noise.html). I. e. both parties (initiator and responder) perform multiple rounds of ed25519-elliptic-curve diffie-hellman key exchange involving both ephemeral and static keys. Resulting cipher is AES-GCM.
+
+File is segmented into chungs of maximum 65519 bytes.
 
 ## Build and run:
 
